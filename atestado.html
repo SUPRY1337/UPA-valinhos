@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atestado de Saúde - Visualização</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            margin: 0;
+        }
+        .certificate-container {
+            background-color: white;
+            width: 100%;
+            max-width: 800px;
+            min-height: 1000px;
+            padding: 40px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            position: relative;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+        }
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #008159;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+        }
+        .header h1 {
+            color: #008159;
+            margin: 0;
+            font-size: 24px;
+            text-transform: uppercase;
+        }
+        .content {
+            line-height: 1.6;
+            font-size: 16px;
+            text-align: justify;
+        }
+        .editable {
+            border-bottom: 1px dashed transparent;
+            padding: 2px;
+            transition: all 0.3s;
+        }
+        .editable:hover {
+            border-bottom: 1px dashed #008159;
+            background-color: #f9f9f9;
+        }
+        .editable:focus {
+            outline: none;
+            background-color: #fff9c4;
+            border-bottom: 1px solid #008159;
+        }
+        .footer {
+            margin-top: 60px;
+            text-align: center;
+        }
+        .signature-line {
+            width: 250px;
+            border-top: 1px solid #000;
+            margin: 0 auto 10px;
+        }
+        .controls {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 100;
+        }
+        .btn {
+            padding: 8px 15px;
+            background-color: #008159;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+            font-size: 13px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .btn-print {
+            background-color: #2196F3;
+        }
+        @media print {
+            .controls {
+                display: none;
+            }
+            body {
+                background-color: white;
+                padding: 0;
+            }
+            .certificate-container {
+                box-shadow: none;
+                border: none;
+                width: 100%;
+                max-width: none;
+                padding: 20px;
+            }
+        }
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 80px;
+            color: rgba(0, 129, 89, 0.05);
+            pointer-events: none;
+            white-space: nowrap;
+            font-weight: bold;
+            z-index: 0;
+        }
+        @media (max-width: 600px) {
+            .controls {
+                position: static;
+                flex-direction: row;
+                margin-bottom: 15px;
+                justify-content: center;
+            }
+            body {
+                flex-direction: column;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="controls">
+        <button class="btn btn-print" onclick="window.print()">Imprimir / PDF</button>
+        <a href="index.html" class="btn">Voltar</a>
+    </div>
+
+    <div class="certificate-container">
+        <div class="watermark">CFM VALIDADO</div>
+        
+        <div class="header">
+            <h1 contenteditable="true" class="editable" id="doc-titulo">ATESTADO DE SAÚDE</h1>
+            <p contenteditable="true" class="editable">Conselho Federal de Medicina - Sistema de Prescrição Eletrônica</p>
+        </div>
+
+        <div class="content">
+            <p>
+                Atestamos para os devidos fins que o(a) paciente 
+                <strong contenteditable="true" class="editable" id="doc-paciente">Matheus Pereira Balduino</strong>, 
+                portador(a) de CPF nº <span contenteditable="true" class="editable">000.000.000-00</span>, 
+                compareceu à consulta médica realizada em <span contenteditable="true" class="editable" id="doc-data">08 de junho de 2026</span>.
+            </p>
+
+            <h2 contenteditable="true" class="editable">Diagnóstico</h2>
+            <p contenteditable="true" class="editable">Apto para atividades normais.</p>
+
+            <h2 contenteditable="true" class="editable">Recomendações</h2>
+            <p contenteditable="true" class="editable">Repouso relativo e hidratação adequada.</p>
+
+            <div style="margin-top: 30px; padding: 15px; background-color: #f9f9f9; border-radius: 8px; border: 1px solid #eee;">
+                <h3 style="margin-top: 0; color: #008159; font-size: 16px;">Dados do Médico</h3>
+                <p><strong>Nome:</strong> <span contenteditable="true" class="editable" id="doc-medico">Dr. Carlos Alberto Silva</span></p>
+                <p><strong>CRM:</strong> <span contenteditable="true" class="editable" id="doc-crm">69517 - SP</span></p>
+                <p><strong>Especialidade:</strong> <span contenteditable="true" class="editable" id="doc-especialidade">Clínica Geral</span></p>
+                <p><strong>Local:</strong> <span contenteditable="true" class="editable" id="doc-local">Avenida Gessy Lever 550, Valinhos - São Paulo - SP</span></p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="signature-line"></div>
+            <p><strong>Assinatura Digital</strong></p>
+            <p style="font-size: 13px; color: #666;">Validado via ICP-Brasil</p>
+            <p style="font-size: 11px; margin-top: 15px;">
+                Código de Validação: <strong contenteditable="true" class="editable" id="doc-codigo">CFMP-AT-WMPBXPK2</strong>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Função para carregar dados
+        function carregarDados() {
+            const savedData = localStorage.getItem('atestadoData');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                if(data.paciente) document.getElementById('doc-paciente').innerText = data.paciente;
+                if(data.medico) document.getElementById('doc-medico').innerText = data.medico;
+                if(data.crm) document.getElementById('doc-crm').innerText = data.crm;
+                if(data.data) document.getElementById('doc-data').innerText = data.data;
+                if(data.especialidade) document.getElementById('doc-especialidade').innerText = data.especialidade;
+                if(data.local) document.getElementById('doc-local').innerText = data.local;
+                if(data.codigo) document.getElementById('doc-codigo').innerText = data.codigo;
+                if(data.tipo) document.getElementById('doc-titulo').innerText = data.tipo.toUpperCase();
+            }
+        }
+
+        // Função para salvar dados
+        function salvarDados() {
+            const data = {
+                paciente: document.getElementById('doc-paciente').innerText,
+                medico: document.getElementById('doc-medico').innerText,
+                crm: document.getElementById('doc-crm').innerText,
+                data: document.getElementById('doc-data').innerText,
+                especialidade: document.getElementById('doc-especialidade').innerText,
+                local: document.getElementById('doc-local').innerText,
+                codigo: document.getElementById('doc-codigo').innerText,
+                tipo: document.getElementById('doc-titulo').innerText
+            };
+            localStorage.setItem('atestadoData', JSON.stringify(data));
+        }
+
+        // Eventos
+        document.querySelectorAll('[contenteditable="true"]').forEach(el => {
+            el.addEventListener('input', salvarDados);
+        });
+
+        window.onload = carregarDados;
+    </script>
+</body>
+</html>
